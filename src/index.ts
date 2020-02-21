@@ -10,7 +10,7 @@ type Params = {
     itemClass: string
 }
 
-function install(editor: NodeEditor, { container, plugins, itemClass = 'dock-item' } : Params) {
+function install(editor: NodeEditor, { container, plugins, itemClass = 'dock-item' }: Params) {
     if (!(container instanceof HTMLElement)) throw new Error('container is not HTML element');
 
     const copy = new NodeEditor(editor.id, editor.view.container);
@@ -20,34 +20,33 @@ function install(editor: NodeEditor, { container, plugins, itemClass = 'dock-ite
     plugins.forEach(plugin => {
         if (Array.isArray(plugin))
             copy.use(plugin[0], plugin[1])
-        else 
+        else
             copy.use(plugin)
     });
 
     editor.on('componentregister', async c => {
         const component: Component = Object.create(c);
-        if(component.name.indexOf('-')==-1)
-        {
-        const el = document.createElement('div');
+        if (component.data.dockerNode) {
+            const el = document.createElement('div');
 
-        el.classList.add(itemClass)
+            el.classList.add(itemClass)
 
-        container.appendChild(el);
+            container.appendChild(el);
 
-        clickStrategy.addComponent(el, component);
-        dropStrategy.addComponent(el, component);
+            clickStrategy.addComponent(el, component);
+            dropStrategy.addComponent(el, component);
 
-        component.editor = copy;
+            component.editor = copy;
 
-        copy.trigger('rendernode', {
-            el,
-            node: await component.createNode({}),
-            component: component.data,
-            bindSocket: () => {},
-            bindControl: (element: HTMLElement, control: Control) => {
-                copy.trigger('rendercontrol', { el: element, control });
-            }
-        });
+            copy.trigger('rendernode', {
+                el,
+                node: await component.createNode({}),
+                component: component.data,
+                bindSocket: () => { },
+                bindControl: (element: HTMLElement, control: Control) => {
+                    copy.trigger('rendercontrol', { el: element, control });
+                }
+            });
         }
     });
 }
