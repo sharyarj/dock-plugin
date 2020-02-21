@@ -26,6 +26,8 @@ function install(editor: NodeEditor, { container, plugins, itemClass = 'dock-ite
 
     editor.on('componentregister', async c => {
         const component: Component = Object.create(c);
+        if(component.name.indexOf('-')!=-1)
+        {
         const el = document.createElement('div');
 
         el.classList.add(itemClass)
@@ -46,6 +48,7 @@ function install(editor: NodeEditor, { container, plugins, itemClass = 'dock-ite
                 copy.trigger('rendercontrol', { el: element, control });
             }
         });
+        }
     });
 }
 
