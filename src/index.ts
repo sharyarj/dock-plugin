@@ -7,10 +7,11 @@ type PluginWithOptions = Plugin | [Plugin, any];
 type Params = {
     container: HTMLElement,
     plugins: PluginWithOptions[],
-    itemClass: string
+    itemClass: string,
+    identifyDockerNodes: boolean
 }
 
-function install(editor: NodeEditor, { container, plugins, itemClass = 'dock-item' }: Params) {
+function install(editor: NodeEditor, { container, plugins, itemClass = 'dock-item', identifyDockerNodes = false }: Params) {
     if (!(container instanceof HTMLElement)) throw new Error('container is not HTML element');
 
     const copy = new NodeEditor(editor.id, editor.view.container);
@@ -26,9 +27,32 @@ function install(editor: NodeEditor, { container, plugins, itemClass = 'dock-ite
 
     editor.on('componentregister', async c => {
         const component: Component = Object.create(c);
-        console.log('dock-component', component);
-        //@ts-ignore
-        if (component.dockerNode) {
+        if (identifyDockerNodes) {
+            console.log('dock-component', component);
+            //@ts-ignore
+            if (component.dockerNode) {
+                const el = document.createElement('div');
+
+                el.classList.add(itemClass)
+
+                container.appendChild(el);
+
+                clickStrategy.addComponent(el, component);
+                dropStrategy.addComponent(el, component);
+
+                component.editor = copy;
+
+                copy.trigger('rendernode', {
+                    el,
+                    node: await component.createNode({}),
+                    component: component.data,
+                    bindSocket: () => { },
+                    bindControl: (element: HTMLElement, control: Control) => {
+                        copy.trigger('rendercontrol', { el: element, control });
+                    }
+                });
+            }
+        } else {
             const el = document.createElement('div');
 
             el.classList.add(itemClass)

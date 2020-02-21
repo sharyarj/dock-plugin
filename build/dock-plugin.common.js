@@ -251,7 +251,9 @@ function install(editor, _ref) {
   var container = _ref.container,
       plugins = _ref.plugins,
       _ref$itemClass = _ref.itemClass,
-      itemClass = _ref$itemClass === void 0 ? 'dock-item' : _ref$itemClass;
+      itemClass = _ref$itemClass === void 0 ? 'dock-item' : _ref$itemClass,
+      _ref$identifyDockerNo = _ref.identifyDockerNodes,
+      identifyDockerNodes = _ref$identifyDockerNo === void 0 ? false : _ref$identifyDockerNo;
   if (!(container instanceof HTMLElement)) throw new Error('container is not HTML element');
   var copy = new rete.NodeEditor(editor.id, editor.view.container);
   var clickStrategy = new ClickStrategy(editor);
@@ -265,16 +267,23 @@ function install(editor, _ref) {
     var _ref2 = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee(c) {
-      var component, el;
+      var component, el, _el;
+
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               component = Object.create(c);
+
+              if (!identifyDockerNodes) {
+                _context.next = 22;
+                break;
+              }
+
               console.log('dock-component', component); //@ts-ignore
 
               if (!component.dockerNode) {
-                _context.next = 19;
+                _context.next = 20;
                 break;
               }
 
@@ -286,10 +295,10 @@ function install(editor, _ref) {
               component.editor = copy;
               _context.t0 = copy;
               _context.t1 = el;
-              _context.next = 13;
+              _context.next = 14;
               return component.createNode({});
 
-            case 13:
+            case 14:
               _context.t2 = _context.sent;
               _context.t3 = component.data;
 
@@ -312,7 +321,48 @@ function install(editor, _ref) {
 
               _context.t0.trigger.call(_context.t0, 'rendernode', _context.t6);
 
-            case 19:
+            case 20:
+              _context.next = 38;
+              break;
+
+            case 22:
+              _el = document.createElement('div');
+
+              _el.classList.add(itemClass);
+
+              container.appendChild(_el);
+              clickStrategy.addComponent(_el, component);
+              dropStrategy.addComponent(_el, component);
+              component.editor = copy;
+              _context.t7 = copy;
+              _context.t8 = _el;
+              _context.next = 32;
+              return component.createNode({});
+
+            case 32:
+              _context.t9 = _context.sent;
+              _context.t10 = component.data;
+
+              _context.t11 = function bindSocket() {};
+
+              _context.t12 = function bindControl(element, control) {
+                copy.trigger('rendercontrol', {
+                  el: element,
+                  control: control
+                });
+              };
+
+              _context.t13 = {
+                el: _context.t8,
+                node: _context.t9,
+                component: _context.t10,
+                bindSocket: _context.t11,
+                bindControl: _context.t12
+              };
+
+              _context.t7.trigger.call(_context.t7, 'rendernode', _context.t13);
+
+            case 38:
             case "end":
               return _context.stop();
           }
