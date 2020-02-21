@@ -271,9 +271,9 @@ function install(editor, _ref) {
           switch (_context.prev = _context.next) {
             case 0:
               component = Object.create(c);
-              console.log('dock-component', component);
+              console.log('dock-component', component); //@ts-ignore
 
-              if (!(component.data.dockerNode == true)) {
+              if (!component.dockerNode) {
                 _context.next = 19;
                 break;
               }
