@@ -267,9 +267,10 @@ function install(editor, _ref) {
           switch (_context.prev = _context.next) {
             case 0:
               component = Object.create(c);
+              console.log('dock-component', component);
 
-              if (!component.data.dockerNode) {
-                _context.next = 18;
+              if (!(component.data.dockerNode == true)) {
+                _context.next = 19;
                 break;
               }
 
@@ -281,10 +282,10 @@ function install(editor, _ref) {
               component.editor = copy;
               _context.t0 = copy;
               _context.t1 = el;
-              _context.next = 12;
+              _context.next = 13;
               return component.createNode({});
 
-            case 12:
+            case 13:
               _context.t2 = _context.sent;
               _context.t3 = component.data;
 
@@ -307,7 +308,7 @@ function install(editor, _ref) {
 
               _context.t0.trigger.call(_context.t0, 'rendernode', _context.t6);
 
-            case 18:
+            case 19:
             case "end":
               return _context.stop();
           }

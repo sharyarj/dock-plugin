@@ -26,7 +26,8 @@ function install(editor: NodeEditor, { container, plugins, itemClass = 'dock-ite
 
     editor.on('componentregister', async c => {
         const component: Component = Object.create(c);
-        if (component.data.dockerNode) {
+        console.log('dock-component', component);
+        if (component.data.dockerNode == true) {
             const el = document.createElement('div');
 
             el.classList.add(itemClass)
