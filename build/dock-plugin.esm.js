@@ -268,7 +268,7 @@ function install(editor, _ref) {
             case 0:
               component = Object.create(c);
 
-              if (!(component.name.indexOf('-') != -1)) {
+              if (!(component.name.indexOf('-') == -1)) {
                 _context.next = 18;
                 break;
               }
