@@ -272,14 +272,12 @@ function install(editor, _ref) {
               component = Object.create(c);
 
               if (!identifyDockerNodes) {
-                _context.next = 22;
+                _context.next = 21;
                 break;
               }
 
-              console.log('dock-component', component); //@ts-ignore
-
               if (!component.dockerNode) {
-                _context.next = 20;
+                _context.next = 19;
                 break;
               }
 
@@ -291,10 +289,10 @@ function install(editor, _ref) {
               component.editor = copy;
               _context.t0 = copy;
               _context.t1 = el;
-              _context.next = 14;
+              _context.next = 13;
               return component.createNode({});
 
-            case 14:
+            case 13:
               _context.t2 = _context.sent;
               _context.t3 = component.data;
 
@@ -317,11 +315,11 @@ function install(editor, _ref) {
 
               _context.t0.trigger.call(_context.t0, 'rendernode', _context.t6);
 
-            case 20:
-              _context.next = 38;
+            case 19:
+              _context.next = 37;
               break;
 
-            case 22:
+            case 21:
               _el = document.createElement('div');
 
               _el.classList.add(itemClass);
@@ -332,10 +330,10 @@ function install(editor, _ref) {
               component.editor = copy;
               _context.t7 = copy;
               _context.t8 = _el;
-              _context.next = 32;
+              _context.next = 31;
               return component.createNode({});
 
-            case 32:
+            case 31:
               _context.t9 = _context.sent;
               _context.t10 = component.data;
 
@@ -358,7 +356,7 @@ function install(editor, _ref) {
 
               _context.t7.trigger.call(_context.t7, 'rendernode', _context.t13);
 
-            case 38:
+            case 37:
             case "end":
               return _context.stop();
           }
